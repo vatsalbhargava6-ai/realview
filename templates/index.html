@@ -2,154 +2,39 @@
 <html>
 <head>
     <title>RealView Jobs</title>
-
-    <style>
-        body{
-            font-family: Arial;
-            background:#f4f4f4;
-            margin:0;
-            padding:0;
-        }
-
-        header{
-            background:#111;
-            color:white;
-            padding:15px;
-            text-align:center;
-        }
-
-        .container{
-            width:90%;
-            margin:auto;
-            padding:20px;
-        }
-
-        input, button{
-            padding:10px;
-            margin:5px;
-        }
-
-        .job{
-            background:white;
-            padding:15px;
-            margin:10px 0;
-            border-radius:10px;
-            box-shadow:0 0 5px #ccc;
-        }
-
-        .grid{
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:20px;
-        }
-
-        .card{
-            background:white;
-            padding:15px;
-            border-radius:10px;
-        }
-
-        button{
-            background:black;
-            color:white;
-            border:none;
-            cursor:pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
-<header>
-    💼 RealView Jobs Platform
-</header>
+<div class="navbar">
+    <h2>RealView</h2>
+
+    <input type="text" placeholder="Search jobs...">
+
+    <a href="/post">
+        <button>Post Job</button>
+    </a>
+</div>
 
 <div class="container">
 
-    <div class="grid">
+    <h2>Latest Jobs 🔥</h2>
 
-        <!-- SEARCH -->
-        <div class="card">
-            <h3>🔎 Search Jobs</h3>
-            <input id="searchBox" placeholder="cook, driver, bhopal">
-            <button onclick="searchJobs()">Search</button>
-        </div>
+    {% for job in jobs %}
+    <div class="card">
+        <h3>{{ job[1] }}</h3>
+        <p>🏢 {{ job[2] }}</p>
+        <p>📍 {{ job[4] }}</p>
+        <h4>💰 {{ job[3] }}</h4>
 
-        <!-- POST JOB -->
-        <div class="card">
-            <h3>📝 Post Job</h3>
-            <input id="title" placeholder="Job Title"><br>
-            <input id="company" placeholder="Company"><br>
-            <input id="salary" placeholder="Salary"><br>
-            <input id="location" placeholder="Location"><br>
-            <input id="phone" placeholder="Phone"><br>
-            <button onclick="postJob()">Post</button>
-        </div>
-
+        <a href="tel:{{ job[5] }}">
+            <button>Call Now 📞</button>
+        </a>
     </div>
-
-    <h2>📌 Jobs List</h2>
-    <div id="jobs"></div>
+    {% endfor %}
 
 </div>
-
-<script>
-
-async function loadJobs(){
-    let res = await fetch("/jobs");
-    let data = await res.json();
-    showJobs(data);
-}
-
-function showJobs(data){
-    let html = "";
-
-    data.forEach(j=>{
-        html += `
-        <div class="job">
-            <h3>${j.title}</h3>
-            <p>🏢 ${j.company}</p>
-            <p>💰 ₹${j.salary}</p>
-            <p>📍 ${j.location}</p>
-            <p>📞 ${j.phone}</p>
-        </div>`;
-    });
-
-    document.getElementById("jobs").innerHTML = html;
-}
-
-async function searchJobs(){
-    let q = document.getElementById("searchBox").value;
-
-    let res = await fetch("/search?q="+q);
-    let data = await res.json();
-
-    showJobs(data);
-}
-
-async function postJob(){
-
-    let job = {
-        title: document.getElementById("title").value,
-        company: document.getElementById("company").value,
-        salary: document.getElementById("salary").value,
-        location: document.getElementById("location").value,
-        phone: document.getElementById("phone").value
-    };
-
-    await fetch("/add-job", {
-        method:"POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify(job)
-    });
-
-    alert("Job Posted!");
-    loadJobs();
-}
-
-loadJobs();
-
-</script>
 
 </body>
 </html>

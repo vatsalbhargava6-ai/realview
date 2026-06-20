@@ -1,49 +1,74 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, render_template, request, redirect, jsonify
+import sqlite3
 
 app = Flask(__name__)
 
-jobs = [
-    {"id": 1, "title": "Cook Needed", "company": "Taj Restaurant", "salary": 12000, "location": "Bhopal", "phone": "9999999999"},
-    {"id": 2, "title": "Delivery Boy", "company": "Zomato Partner", "salary": 15000, "location": "Indore", "phone": "8888888888"}
-]
+# DB setup
+def init_db():
+    conn = sqlite3.connect("jobs.db")
+    c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS jobs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            company TEXT,
+            salary TEXT,
+            location TEXT,
+            phone TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
 
+init_db()
+
+# Home page (show jobs)
 @app.route("/")
 def home():
-    return render_template("index.html")
+    conn = sqlite3.connect("jobs.db")
+    c = conn.cursor()
+    c.execute("SELECT * FROM jobs ORDER BY id DESC")
+    jobs = c.fetchall()
+    conn.close()
 
-# get jobs
-@app.route("/jobs")
-def get_jobs():
-    return jsonify(jobs)
+    return render_template("index.html", jobs=jobs)
 
-# add job (POST JOB FORM)
-@app.route("/add-job", methods=["POST"])
-def add_job():
-    data = request.json
+# Post job page
+@app.route("/post", methods=["GET", "POST"])
+def post_job():
+    if request.method == "POST":
+        title = request.form["title"]
+        company = request.form["company"]
+        salary = request.form["salary"]
+        location = request.form["location"]
+        phone = request.form["phone"]
 
-    new_job = {
-        "id": len(jobs) + 1,
-        "title": data["title"],
-        "company": data["company"],
-        "salary": data["salary"],
-        "location": data["location"],
-        "phone": data["phone"]
-    }
+        conn = sqlite3.connect("jobs.db")
+        c = conn.cursor()
+        c.execute("""
+            INSERT INTO jobs (title, company, salary, location, phone)
+            VALUES (?, ?, ?, ?, ?)
+        """, (title, company, salary, location, phone))
+        conn.commit()
+        conn.close()
 
-    jobs.append(new_job)
-    return jsonify({"message": "Job added", "job": new_job})
+        return redirect("/")
 
-# search + near me (simple filter)
+    return render_template("post_job.html")
+
+# API search
 @app.route("/search")
 def search():
-    q = request.args.get("q", "").lower()
+    q = request.args.get("q", "")
 
-    result = [
-        j for j in jobs
-        if q in j["title"].lower() or q in j["location"].lower()
-    ]
+    conn = sqlite3.connect("jobs.db")
+    c = conn.cursor()
+    c.execute("SELECT * FROM jobs WHERE title LIKE ? OR location LIKE ?",
+              ('%'+q+'%', '%'+q+'%'))
+    jobs = c.fetchall()
+    conn.close()
 
-    return jsonify(result)
+    return jsonify(jobs)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(debug=True)
