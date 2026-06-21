@@ -13,8 +13,9 @@ MONGO_URI = "mongodb+srv://realview_user:Realview12345@cluster0.zh0qpbq.mongodb.
 
 client = MongoClient(
     MONGO_URI,
-    serverSelectionTimeoutMS=3000,
-    connectTimeoutMS=3000
+    tls=True,
+    tlsAllowInvalidCertificates=False,
+    serverSelectionTimeoutMS=15000
 )
 
 db = client["realview"]
