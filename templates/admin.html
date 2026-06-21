@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel - RealView</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f4f6f8;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 15px 20px;
+            font-size: 20px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            flex: 1;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .section-title {
+            margin: 20px 0 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .box {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+
+        .btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .delete {
+            background: red;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">🧑‍💼 Admin Panel - RealView</div>
+
+<div class="container">
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="card">
+            <h3>{{ users|length }}</h3>
+            <p>Users</p>
+        </div>
+
+        <div class="card">
+            <h3>{{ jobs|length }}</h3>
+            <p>Jobs</p>
+        </div>
+    </div>
+
+    <!-- USERS -->
+    <div class="section-title">👥 Users</div>
+
+    {% for user in users %}
+    <div class="box">
+        <div><b>Name:</b> {{ user.name }}</div>
+        <div><b>Username:</b> {{ user.username }}</div>
+        <div><b>Role:</b> {{ user.role }}</div>
+
+        <!-- FIXED ROUTE -->
+        <a href="/admin/delete-user/{{ user._id }}">
+            <button class="btn delete">Delete User</button>
+        </a>
+    </div>
+    {% endfor %}
+
+    <!-- JOBS -->
+    <div class="section-title">💼 Jobs</div>
+
+    {% for job in jobs %}
+    <div class="box">
+        <div><b>{{ job.title }}</b></div>
+        <div>{{ job.company }} | {{ job.city }}</div>
+
+        <!-- FIXED ROUTE -->
+        <a href="/admin/delete-job/{{ job._id }}">
+            <button class="btn delete">Delete Job</button>
+        </a>
+    </div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

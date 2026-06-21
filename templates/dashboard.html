@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Dashboard - RealView</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<style>
+body{
+    font-family: Arial;
+    background:#f5f6fa;
+    margin:0;
+}
+
+/* NAVBAR */
+.navbar{
+    background:#111;
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.navbar button{
+    margin-left:10px;
+    padding:8px 12px;
+    border:none;
+    cursor:pointer;
+    border-radius:6px;
+}
+
+/* CONTAINER */
+.container{
+    width:90%;
+    margin:auto;
+    padding:20px;
+}
+
+/* CARDS */
+.card{
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    margin:15px 0;
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:scale(1.02);
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:15px;
+}
+
+/* BUTTONS */
+.btn{
+    padding:8px 12px;
+    border:none;
+    cursor:pointer;
+    border-radius:6px;
+    font-size:14px;
+}
+
+.edit{
+    background:#f39c12;
+    color:white;
+}
+
+.delete{
+    background:#e74c3c;
+    color:white;
+}
+
+.post{
+    background:#2ecc71;
+    color:white;
+}
+
+.explore{
+    background:#3498db;
+    color:white;
+}
+
+/* HEADINGS */
+h1{
+    margin-top:20px;
+}
+
+.admin-btn{
+    background:black;
+    color:white;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+<h2>🚀 RealView</h2>
+
+<div>
+<a href="/"><button>Home</button></a>
+<a href="/explore"><button>Explore</button></a>
+
+{% if user.role == "admin" %}
+<a href="/admin">
+<button class="admin-btn">👑 Admin</button>
+</a>
+{% endif %}
+
+<a href="/logout"><button>Logout</button></a>
+</div>
+
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+<h1>Welcome {{ user.name }} 👋</h1>
+<p>Manage your jobs easily from here</p>
+
+<!-- ACTION CARDS -->
+<div class="grid">
+
+<div class="card">
+<h2>🏪 Post Job</h2>
+<p>Create a new job listing</p>
+<a href="/post">
+<button class="btn post">+ Post Job</button>
+</a>
+</div>
+
+<div class="card">
+<h2>🔍 Explore Jobs</h2>
+<p>Find jobs by city & category</p>
+<a href="/explore">
+<button class="btn explore">Explore</button>
+</a>
+</div>
+
+</div>
+
+<!-- JOB LIST -->
+<h2 style="margin-top:30px;">🧾 My Jobs</h2>
+
+<div class="grid">
+
+{% for job in jobs %}
+
+<div class="card">
+
+<h3>{{ job.title }}</h3>
+<p>🏢 {{ job.company }}</p>
+<p>📍 {{ job.city }} - {{ job.area }}</p>
+<p>💼 {{ job.category }}</p>
+<h3>💰 {{ job.salary }}</h3>
+<p>📞 {{ job.phone }}</p>
+
+<div style="margin-top:10px; display:flex; gap:10px;">
+
+<a href="/edit/{{ job._id }}">
+<button class="btn edit">✏️ Edit</button>
+</a>
+
+<a href="/delete/{{ job._id }}" onclick="return confirm('Delete this job?')">
+<button class="btn delete">🗑️ Delete</button>
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

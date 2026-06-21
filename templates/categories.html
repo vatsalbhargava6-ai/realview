@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>{{city}} - Categories</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+<h2>📍 {{city}} Jobs</h2>
+
+<div>
+
+<a href="/explore">
+<button>Back</button>
+</a>
+
+<a href="/dashboard">
+<button>Dashboard</button>
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+<h1>Select Job Category</h1>
+
+<p>Choose the type of job you are looking for</p>
+
+{% for category in categories %}
+
+<div class="card">
+
+<h2>💼 {{ category }}</h2>
+
+<a href="/jobs/{{city}}/{{category}}">
+<button>View Jobs</button>
+</a>
+
+</div>
+
+{% endfor %}
+
+{% if not categories %}
+
+<div class="card">
+<p>No categories found 😢</p>
+<p>Try another city</p>
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

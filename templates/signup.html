@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Signup - RealView</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<!-- FORM -->
+<div class="form-container">
+
+<form method="POST">
+
+<h2>🚀 Create Account</h2>
+
+<p>Join RealView to find or post local jobs</p>
+
+<input 
+name="name" 
+placeholder="Full Name"
+required>
+
+<input 
+name="username"
+placeholder="Username"
+required>
+
+<input 
+name="city"
+placeholder="City (e.g. Bhopal)"
+required>
+
+<input 
+type="password"
+name="password"
+placeholder="Password"
+required>
+
+<!-- ROLE -->
+<select name="role" required>
+
+<option value="">Select Role</option>
+
+<option value="jobseeker">
+Looking for Job
+</option>
+
+<option value="shopkeeper">
+Hiring People
+</option>
+
+</select>
+
+<button type="submit">Create Account</button>
+
+<p>
+Already have account? 
+<a href="/login">Login</a>
+</p>
+
+</form>
+
+</div>
+
+</body>
+</html>

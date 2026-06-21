@@ -1,44 +1,88 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>RealView Jobs</title>
-    <link rel="stylesheet" href="/static/style.css">
+<title>RealView</title>
+<link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
-    <h2>RealView</h2>
 
-    <input type="text" placeholder="Search jobs...">
+<h2>🚀 RealView</h2>
 
-    <a href="/post">
-        <button>Post Job</button>
-    </a>
+{% if current_user.is_authenticated %}
+
+<a href="/dashboard"><button>Dashboard</button></a>
+<a href="/logout"><button>Logout</button></a>
+
+{% else %}
+
+<a href="/login"><button>Login</button></a>
+<a href="/signup"><button>Create Account</button></a>
+
+{% endif %}
+
 </div>
 
-<div class="container">
+<!-- HERO -->
+<div class="hero">
 
-    <h2>Latest Jobs 🔥</h2>
+<h1>Find Local Jobs Near You 🚀</h1>
+<p>Discover jobs from shops, restaurants, and businesses in your city</p>
 
-    {% if jobs %}
-        {% for job in jobs %}
-        <div class="card">
-
-            <h3>{{ job.title }}</h3>
-            <p>🏢 {{ job.company }}</p>
-            <p>📍 {{ job.location }}</p>
-            <h4>💰 {{ job.salary }}</h4>
-
-            <a href="tel:{{ job.phone }}">
-                <button>Call Now 📞</button>
-            </a>
-
-        </div>
-        {% endfor %}
+<!-- BUTTON ONLY (SEARCH REMOVED) -->
+<div style="margin-top:20px;">
+    {% if current_user.is_authenticated %}
+        <a href="/explore"><button class="big-btn">Explore Jobs</button></a>
     {% else %}
-        <p>No jobs found 😢</p>
+        <a href="/signup"><button class="big-btn">Get Started Free</button></a>
     {% endif %}
+</div>
+
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+
+<h2>How RealView Works</h2>
+
+<div class="card">
+<h2>1️⃣ Search City</h2>
+<p>Select your city and see jobs nearby</p>
+</div>
+
+<div class="card">
+<h2>2️⃣ Choose Category</h2>
+<p>Cook, Helper, Driver, Waiter, etc.</p>
+</div>
+
+<div class="card">
+<h2>3️⃣ Apply Instantly</h2>
+<p>Call or WhatsApp directly to employer</p>
+</div>
+
+</div>
+
+<!-- BUSINESS -->
+<div class="features">
+
+<div class="card">
+<h2>👷 Job Seekers</h2>
+<p>Find jobs in your city quickly</p>
+</div>
+
+<div class="card">
+<h2>🏪 Businesses</h2>
+<p>Post jobs and hire people easily</p>
+</div>
+
+<div class="card">
+<h2>📍 Local Focus</h2>
+<p>Only nearby opportunities for better results</p>
+</div>
 
 </div>
 

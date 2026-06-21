@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Job - RealView</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        .form-box{
+            width:300px;
+            margin:auto;
+        }
+
+        input{
+            display:block;
+            width:100%;
+            padding:8px;
+            margin:10px 0;
+        }
+
+        button{
+            padding:10px;
+            background:green;
+            color:white;
+            border:none;
+            cursor:pointer;
+            width:100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2 style="text-align:center;">✏️ Edit Job</h2>
+
+<div class="form-box">
+
+<form method="POST">
+
+    <input name="title" value="{{ job.title }}" placeholder="Title">
+    <input name="company" value="{{ job.company }}" placeholder="Company">
+    <input name="city" value="{{ job.city }}" placeholder="City">
+    <input name="area" value="{{ job.area }}" placeholder="Area">
+    <input name="category" value="{{ job.category }}" placeholder="Category">
+    <input name="salary" value="{{ job.salary }}" placeholder="Salary">
+    <input name="phone" value="{{ job.phone }}" placeholder="Phone">
+
+    <button type="submit">Update Job</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>{{city}} - {{category}} Jobs</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+<h2>📍 {{city}} • {{category}}</h2>
+
+<div>
+
+<a href="/jobs/{{city}}">
+<button>Back</button>
+</a>
+
+<a href="/explore">
+<button>Explore</button>
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+<h1>Available Jobs</h1>
+
+<p>Find and apply to jobs directly</p>
+
+{% for job in jobs %}
+
+<div class="card">
+
+<h2>💼 {{ job.title }}</h2>
+
+<p>🏢 Company: {{ job.company }}</p>
+
+<p>📍 Location: {{ job.city }} - {{ job.area }}</p>
+
+<p>💼 Category: {{ job.category }}</p>
+
+<h3>💰 Salary: {{ job.salary }}</h3>
+
+<!-- CALL BUTTON -->
+<a href="tel:{{ job.phone }}">
+<button>Call Now 📞</button>
+</a>
+
+</div>
+
+{% endfor %}
+
+{% if not jobs %}
+
+<div class="card">
+<p>No jobs in this category yet 😢</p>
+<p>Check another category or city</p>
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Explore Jobs - RealView</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+<h2>📍 Explore Cities</h2>
+
+<div>
+
+<a href="/dashboard">
+<button>Dashboard</button>
+</a>
+
+<a href="/">
+<button>Home</button>
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+<h1>Find Jobs Near You 🚀</h1>
+
+<p>Select your city to see available jobs</p>
+
+{% for city in cities %}
+
+<div class="card">
+
+<h2>📍 {{ city }}</h2>
+
+<a href="/jobs/{{ city }}">
+<button>View Categories</button>
+</a>
+
+</div>
+
+{% endfor %}
+
+{% if not cities %}
+
+<div class="card">
+<p>No jobs available yet 😢</p>
+<p>Ask shopkeepers to post jobs</p>
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>
