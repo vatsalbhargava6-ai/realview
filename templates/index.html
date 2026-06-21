@@ -21,18 +21,24 @@
 
     <h2>Latest Jobs 🔥</h2>
 
-    {% for job in jobs %}
-    <div class="card">
-        <h3>{{ job[1] }}</h3>
-        <p>🏢 {{ job[2] }}</p>
-        <p>📍 {{ job[4] }}</p>
-        <h4>💰 {{ job[3] }}</h4>
+    {% if jobs %}
+        {% for job in jobs %}
+        <div class="card">
 
-        <a href="tel:{{ job[5] }}">
-            <button>Call Now 📞</button>
-        </a>
-    </div>
-    {% endfor %}
+            <h3>{{ job.title }}</h3>
+            <p>🏢 {{ job.company }}</p>
+            <p>📍 {{ job.location }}</p>
+            <h4>💰 {{ job.salary }}</h4>
+
+            <a href="tel:{{ job.phone }}">
+                <button>Call Now 📞</button>
+            </a>
+
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No jobs found 😢</p>
+    {% endif %}
 
 </div>
 
